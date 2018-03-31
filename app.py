@@ -44,6 +44,15 @@ def fixture_frameworks():
     return jsonify({'result': 'Already Exists!!!'})
 
 
+@app.route('/frameworks')
+def frameworks():
+  framework_schema = FrameworkSchema()
+
+  output = []
+  for framework in Framework.objects:
+    output.append(framework_schema.dump(framework))
+
+  return jsonify({'result': output})
 
 
 if __name__ == '__main__':
