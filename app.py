@@ -4,11 +4,14 @@ from marshmallow_mongoengine import ModelSchema
 from mongoengine.errors import NotUniqueError
 
 
+# New Flask App
 app = Flask(__name__)
+# Configs for mLab
 app.config['MONGODB_DB'] = 'myframeworksdb'
 app.config['MONGODB_HOST'] = 'mongodb://dbuser:dbpassword@ds231229.mlab.com:31229/myframeworksdb'
 app.config['MONGODB_PORT'] = 31229
 
+# Create instance of MongoEngine
 db = MongoEngine(app)
 
 
@@ -25,6 +28,8 @@ class FrameworkSchema(ModelSchema):
 
 
 # Routes
+
+# Fixture of Frameworks
 @app.route('/fixture-frameworks')
 def fixture_frameworks():
   try:
@@ -44,6 +49,7 @@ def fixture_frameworks():
     return jsonify({'result': 'Already Exists!!!'})
 
 
+# List all Frameworks
 @app.route('/frameworks')
 def frameworks():
   framework_schema = FrameworkSchema()
@@ -55,6 +61,7 @@ def frameworks():
   return jsonify({'result': output})
 
 
+# Retrieve a Framework by name
 @app.route('/framework/<name>')
 def get_framework(name):
   framework_schema = FrameworkSchema()
@@ -64,6 +71,7 @@ def get_framework(name):
   return jsonify({'result': output})
 
 
+# Update a Framework by name
 @app.route('/framework/<name>', methods=['PUT'])
 def update_framework(name):
   framework_schema = FrameworkSchema()
@@ -82,6 +90,7 @@ def update_framework(name):
   return jsonify({'result': output})
 
 
+# Delete a Framework by name
 @app.route('/framework/<name>', methods=['DELETE'])
 def remove_framework(name):
   framework_schema = FrameworkSchema()
@@ -92,6 +101,7 @@ def remove_framework(name):
   return jsonify({'result': 'Removed'})
 
 
+# Create new Framework
 @app.route('/framework', methods=['POST'])
 def new_framework():
   framework_schema = FrameworkSchema()
@@ -108,6 +118,3 @@ def new_framework():
 
 if __name__ == '__main__':
   app.run(debug=True)
-
-
-
