@@ -92,6 +92,20 @@ def remove_framework(name):
   return jsonify({'result': 'Removed'})
 
 
+@app.route('/framework', methods=['POST'])
+def new_framework():
+  framework_schema = FrameworkSchema()
+
+  data = request.get_json(force=True)
+  name = data['name']
+  language = data['language']
+
+  framework = Framework(name=name, language=language).save()
+  output = framework_schema.dump(framework)
+
+  return jsonify({'result': output})
+
+
 if __name__ == '__main__':
   app.run(debug=True)
 
