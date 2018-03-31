@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_mongoengine import MongoEngine
 from marshmallow_mongoengine import ModelSchema
 from mongoengine.errors import NotUniqueError
@@ -114,6 +114,12 @@ def new_framework():
   output = framework_schema.dump(framework)
 
   return jsonify({'result': output})
+
+
+# Home Page
+@app.route('/')
+def home():
+  return render_template('index.html')
 
 
 if __name__ == '__main__':
