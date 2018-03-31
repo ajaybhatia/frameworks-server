@@ -82,6 +82,16 @@ def update_framework(name):
   return jsonify({'result': output})
 
 
+@app.route('/framework/<name>', methods=['DELETE'])
+def remove_framework(name):
+  framework_schema = FrameworkSchema()
+
+  framework = Framework.objects.get(name=name)
+  framework.delete()
+
+  return jsonify({'result': 'Removed'})
+
+
 if __name__ == '__main__':
   app.run(debug=True)
 
