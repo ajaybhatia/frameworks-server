@@ -55,6 +55,15 @@ def frameworks():
   return jsonify({'result': output})
 
 
+@app.route('/framework/<name>')
+def get_framework(name):
+  framework_schema = FrameworkSchema()
+  framework = Framework.objects.get(name=name)
+  output = framework_schema.dump(framework)
+
+  return jsonify({'result': output})
+
+
 if __name__ == '__main__':
   app.run(debug=True)
 
