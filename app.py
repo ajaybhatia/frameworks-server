@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_mongoengine import MongoEngine
 from marshmallow_mongoengine import ModelSchema
 from mongoengine.errors import NotUniqueError
@@ -59,6 +59,24 @@ def frameworks():
 def get_framework(name):
   framework_schema = FrameworkSchema()
   framework = Framework.objects.get(name=name)
+  output = framework_schema.dump(framework)
+
+  return jsonify({'result': output})
+
+
+@app.route('/framework/<name>', methods=['PUT'])
+def update_framework(name):
+  framework_schema = FrameworkSchema()
+
+  data = request.get_json(force=True)
+  new_name = data['name']
+  new_language = data['language']
+
+  framework = Framework.objects.get(name=name)
+  framework.name = new_name
+  framework.language = new_language
+  framework = framework.save()
+
   output = framework_schema.dump(framework)
 
   return jsonify({'result': output})
